@@ -1,0 +1,18 @@
+<div class="container">
+  <h3><%= @cocktail.name %></h3>
+  <div class="cards">
+    <div class="card">
+  <% @cocktail.doses.each do |dose| %>
+    <p><%= dose.description %> - <%= dose.ingredient.name %></p>
+  <% end %>
+    </div>
+  </div>
+  <div class="add-form">
+    <%= simple_form_for [@cocktail, @dose] do |f| %>
+    <%= f.association :ingredient %>
+    <%= f.input :description, placeholder: 'enter amount!' %>
+    <%= f.submit %>
+    <% end %>
+  </div>
+  <%= link_to "back", cocktails_path  %>
+</div>
