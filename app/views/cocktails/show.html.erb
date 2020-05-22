@@ -1,29 +1,36 @@
 <div class="container">
-  <h3><%= @cocktail.name %></h3>
-  <div class="cards">
-    <div class="card">
-      <% @cocktail.doses.each do |dose| %>
-        <li style="list-style: none">
-          <td><%= dose.description %> - </td>
-          <td><%= dose.ingredient.name %></td>
-          <td>
-            <%= link_to dose_path(dose), method: :delete, data: { confirm: "Are you sure?" } do %>
-              <i class="fa fa-trash destroy_dose"></i>
-            <% end %>
-          </td>
-        </li>
-      <% end %>
-    </div>
-  </div>
-  <div class="add-form">
-    <%= simple_form_for [@cocktail, @dose] do |f| %>
-    <%= f.association :ingredient %>
-    <%= f.input :description, placeholder: 'enter amount!' %>
-    <%= f.submit %>
+  <div class="show-card">
+    <% if @cocktail.photo.attachment %>
+        <div class="card-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path @cocktail.photo.key, height: 300, width: 400, crop: :fill %>')">
+    <% else %>
+        <div class="card-no-image">
     <% end %>
+      <h3><%= @cocktail.name %></h3>
+      <p>Ingredients:</p>
+    <% @cocktail.doses.each do |dose| %>
+      <li style="list-style: none">
+        <td><%= dose.description %> - </td>
+        <td><%= dose.ingredient.name %></td>
+        <td>
+          <%= link_to dose_path(dose), method: :delete, data: { confirm: "Are you sure?" } do %>
+            <i class="fa fa-trash destroy_dose"></i>
+          <% end %>
+        </td>
+      </li>
+    <% end %>
+    </div>
+
+    <h4>Add Ingredients here:</h4>
+    <div class="add-form">
+        <%= simple_form_for [@cocktail, @dose] do |f| %>
+        <%= f.association :ingredient %>
+        <%= f.input :description, placeholder: 'enter amount!' %>
+        <%= f.submit "Add ingredient" %>
+        <% end %>
+    </div>
+
   </div>
+
   <%= link_to "back", root_path  %>
 </div>
 
-<div>
-</div>

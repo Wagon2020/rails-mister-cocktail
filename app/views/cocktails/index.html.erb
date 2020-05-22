@@ -1,18 +1,33 @@
 <div class="banner">
   <div class="my-title">
-    <h2>List of Cocktails</h2>
+    <h2>Get Wasted!</h2>
   </div>
 </div>
 
 <div class="container">
   <div class="cards">
     <% @cocktails.each do |cocktail| %>
-    <div class="card">
-      <p><%= link_to cocktail.name, cocktail_path(cocktail) %></p>
+    <%= link_to cocktail_path(cocktail) do %>
+    <div class="show-card">
+
+<% if cocktail.photo.attachment %>
+        <div class="card-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path cocktail.photo.key, height: 300, width: 400, crop: :fill %>')">
+    <% else %>
+        <div class="card-no-image">
+    <% end %>
+        <h3><%= cocktail.name %></h3>
+        <p>Ingredients:</p>
+        <% cocktail.doses.each do |dose| %>
+          <li style="list-style: none">
+            <td><%= dose.description %> - </td>
+            <td><%= dose.ingredient.name %></td>
+          </li>
+        <% end %>
+        </div>
+
     </div>
     <% end %>
+    <% end %>
   </div>
-  <hr>
   <%= link_to 'create cocktail', new_cocktail_path  %>
 </div>
-
